@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, process};
 use dialoguer::Input;
 
 fn main() {
@@ -17,6 +17,18 @@ fn main() {
     .with_initial_text("GCUA VQ DTGCM")
     .interact_text().unwrap();
     input = input.to_lowercase();
+    // Exit program if input has numeric values
+    for letter in input.chars() {
+        if letter.is_numeric() {
+            println!("Please enter letters only");
+            // Exit prompt
+            let exit : String = Input::new()
+            .with_prompt("Press enter to exit")
+            .allow_empty(true)
+            .interact_text().unwrap();
+            process::exit(0x0100);
+        }
+    }
 
     // Brute force caesar cipher
     print!("\n");
@@ -34,7 +46,6 @@ fn main() {
     }
     print!("\n");
 
-    // Exit prompt
     let exit : String = Input::new()
     .with_prompt("Press enter to exit")
     .allow_empty(true)
